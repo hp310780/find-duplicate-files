@@ -1,4 +1,4 @@
-# FindDuplicates
+# FindDuplicateFiles
 
 Finds all duplicate files within a given directory on a file system.
 
@@ -17,7 +17,7 @@ expensive hashes on large files.
 Copy this directory to a preferred location and run either as a command line or a Python module.
 As a command line:
 ```
-> cd <FindDuplicates directory>
+> cd <FindDuplicateFiles directory>
 > python find_duplicate_files.py --dir /path/to/dir --chunk 2
 ```
 To run as a Python module:
@@ -32,7 +32,7 @@ find_duplicate_files.find_duplicate_files("/path/to/dir", chunk=1)
 To run the tests, please use the following commands:
 
 ```
-> cd <FindDuplicates directory>
+> cd <FindDuplicateFiles directory>
 > python -m tests.run
 ```
 
@@ -47,8 +47,8 @@ The test data provided takes the following form -
 An optional performance script to compare the performance of hashing the full file versus the chunked approach when finding duplicate files. Outputs performance metrics.
 To run:
 ```
-> cd <FindDuplicates/metrics directory>
-> python peformance.py
+> cd <FindDuplicateFiles/metrics directory>
+> python performance.py
 ```
 Example output:
 ```
@@ -61,6 +61,7 @@ Method 2 - Generate chunked hash returns correct duplicates.Time 0.0068729089998
 | :---: | :---: | :---: | :---:| :---: |
 | Chunk Size | 1 | 1 | 8 | 8 |
 | Seconds | 4.24 | 4.16 | 8.30 | 8.33 |
+
 Test Data: 10.9gb, 3653 files, 128 duplicates, largest file ~156mb
 
 ## Further Optimisations
