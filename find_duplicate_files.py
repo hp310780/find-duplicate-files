@@ -182,9 +182,6 @@ if __name__ == '__main__':
 
     args = parse_cmd_args(sys.argv[1:])
 
-    start = timer()
     duplicates = find_duplicate_files(args.dir, args.chunk)
-    end = timer()
-    print(end - start)
     print("Duplicate files found in %s -" % (args.dir))
     pprint(duplicates)
