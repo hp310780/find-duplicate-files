@@ -56,13 +56,14 @@ Method 1 - Generate full hash returns correct duplicates.Time 0.0065157090011780
 Method 2 - Generate chunked hash returns correct duplicates.Time 0.006872908999866922
 ```
 
-## Performance Data
+## Benchmarking
 | Attempt | #1 | #2 | #3 | #4 |
 | :---: | :---: | :---: | :---:| :---: |
-| Chunk Size | 1 | 1 | 8 | 8
-| Seconds | 4.24 | 4.16 | 8.30 | 8.33
+| Chunk Size | 1 | 1 | 8 | 8 |
+| Seconds | 4.24 | 4.16 | 8.30 | 8.33 |
 Test Data: 10.9gb, 3653 files, 128 duplicates, largest file ~156mb
 
 ## Further Optimisations
 * Investigate optimal chunk size given common file type
 * Investigate threading for performance
+* Investigate different hashing algorithms
