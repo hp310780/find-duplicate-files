@@ -9,6 +9,7 @@ class TestGenerateHash(unittest.TestCase):
     Returns successful if find_duplicate_files.generate_hash returns the correct
     hash for a given file.
     '''
+
     def setUp(self):
         self.test_file = os.path.join(os.getcwd(),
                                       "tests",

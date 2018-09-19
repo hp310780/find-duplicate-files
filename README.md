@@ -39,7 +39,7 @@ To run the tests, please use the following commands:
 ## Test Data
 
 The test data provided takes the following form - 
-* tests/test_data/TestFindDuplicateFilesByHash: 3 .txt files of equal size (29 bytes). 1.txt and 3.txt are the same content. 2.txt is different contents (but the same size). Used to verify the find_duplicate_files.find_duplicate_files_by_hash function.
+* tests/test_data/TestFindDuplicateFilesByHash: 5 .txt files of equal size (29 bytes). 1.txt and 3.txt are the same content. 4.txt and 5.txt are the same content. 2.txt is different contents (but the same size). Used to verify the find_duplicate_files.find_duplicate_files_by_hash function.
 * tests/test_data/TestGenerateHash/1.txt: 1 .txt file with which to compare the outcome of find_duplicate_files.generate_hash to.
 
 ## Performance
@@ -68,3 +68,4 @@ Test Data: 10.9gb, 3653 files, 128 duplicates, largest file ~156mb
 * Investigate optimal chunk size given common file type
 * Investigate threading for performance
 * Investigate different hashing algorithms
+* Investigate recursive chunking - i.e. Eliminating files that differ

@@ -6,6 +6,7 @@ from timeit import default_timer as timer
 import find_duplicate_files
 from tests import generate_test_directory
 
+
 def run():
     '''
     Output time taken for a full hash vs chunked hash
@@ -17,13 +18,15 @@ def run():
                                                                  True)
 
     start = timer()
-    duplicate_files_full = find_duplicate_files.find_duplicate_files(directory, 1)
+    duplicate_files_full = find_duplicate_files.find_duplicate_files(directory,
+                                                                     1)
     end = timer()
     full_hash_time = end - start
 
-    # Arbritrary chunk size of 3 to compare.
+    # Arbitrary chunk size of 3 to compare.
     start = timer()
-    duplicate_files_chunk = find_duplicate_files.find_duplicate_files(directory, 3)
+    duplicate_files_chunk = find_duplicate_files.find_duplicate_files(
+        directory, 3)
     end = timer()
     chunk_hash_time = end - start
 
@@ -39,6 +42,6 @@ def run():
 
     shutil.rmtree(directory)
 
+
 if __name__ == '__main__':
     run()
-

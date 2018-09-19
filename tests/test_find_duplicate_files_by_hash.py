@@ -37,6 +37,7 @@ class TestFindDuplicateFilesByHash(unittest.TestCase):
                                    "test_data",
                                    "TestFindDuplicateFilesByHash",
                                    "5.txt")
+
         # 3 files of equal size. 2.txt has differing content
         # 1 and 3 match
         # 4 and 5 match

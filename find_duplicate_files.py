@@ -17,7 +17,7 @@ def generate_hash(file_path,
     Args:
         file_path(str): Path to file to generate hash for
         chunk_size(int): Hash size to read
-        previous_chunk_size(int): Where to read the file from in bytes
+        seek_file_at(int): Where to read the file from in bytes
 
     Returns:
         Str: Hexdigit digest of file hash
@@ -61,7 +61,7 @@ def find_duplicate_files_by_hash(files,
                                       file_pointer_at)
         except IOError as e:
             logging.error("Could not read: %s. Exiting." %
-                          (file_path))
+                          file_path)
             raise e
 
         file_hashes[file_hash].append(file_path)
@@ -103,12 +103,12 @@ def find_duplicate_files(directory_to_search, chunks=1):
     Finds duplicate files in the given directory.
 
     First, find files of the same size (indicating similar contents).
-    Then compare hashes of successive file chunks,
-    eliminating any differing files.
+    Then compare hashes of first file chunk then full hash if the first
+    chunk matches.
 
     Args:
         directory_to_search(str): Path to the parent directory to search
-        chunks(int): No. of chunks to generate per file
+        chunks(int): Size of chunk to generate per file
 
     Returns:
         List of Lists: List of lists of duplicate files in the directory tree
@@ -119,7 +119,7 @@ def find_duplicate_files(directory_to_search, chunks=1):
 
     file_sizes = defaultdict(list)
 
-    # followlinks in order to return any symlinked files
+    # followlinks in order to return full path to symlinked files
     for root, dirs, files in os.walk(directory_to_search, followlinks=True):
         for file in files:
             file_path = os.path.join(root, file)
@@ -150,7 +150,7 @@ def find_duplicate_files(directory_to_search, chunks=1):
                     duplicate_files.append(d)
 
         # No need to check empty files
-        elif file_size == 0:
+        elif len(file_sizes[file_size]) > 1 and file_size == 0:
             duplicate_files.append(file_sizes[file_size])
 
     return sorted(duplicate_files)
@@ -169,7 +169,7 @@ def parse_cmd_args(args):
     parser = argparse.ArgumentParser(
         description='Find duplicates files in the given directory')
 
-    # The only argument expected is the directory to search
+    # The only compulsory argument is the directory to search
     parser.add_argument('--dir',
                         type=str,
                         required=True,
@@ -190,5 +190,5 @@ if __name__ == '__main__':
     args = parse_cmd_args(sys.argv[1:])
 
     duplicates = find_duplicate_files(args.dir, args.chunk)
-    print("Duplicate files found in %s -" % (args.dir))
+    print("Duplicate files found in %s -" % args.dir)
     pprint(duplicates)
