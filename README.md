@@ -60,7 +60,7 @@ Method 2 - Generate chunked hash returns correct duplicates.Time 0.0068729089998
 | Attempt | #1 | #2 | #3 | #4 |
 | :---: | :---: | :---: | :---:| :---: |
 | Chunk Size | 1 | 1 | 8 | 8 |
-| Seconds | 4.24 | 4.16 | 3.25 | 3.27 |
+| Seconds | 5.4 | 4.16 | 3.25 | 3.27 |
 
 Test Data: 10.9gb, 3653 files, 128 duplicates, largest file ~156mb
 
