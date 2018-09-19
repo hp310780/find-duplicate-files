@@ -22,16 +22,14 @@ def generate_hash(file_path,
     Returns:
         Str: Hexdigit digest of file hash
     '''
-    with open(file_path, 'rb') as file_to_hash:
-        md5_hash = hashlib.md5()
-        buffer = file_to_hash.read(chunk_size)
+    md5_hash = hashlib.md5()
 
+    with open(file_path, 'rb') as file_to_hash:
         if seek_file_at != 0:
             file_to_hash.seek(seek_file_at)
 
-        while len(buffer) > 0:
-            md5_hash.update(buffer)
-            buffer = file_to_hash.read(chunk_size)
+        buffer = file_to_hash.read(chunk_size)
+        md5_hash.update(buffer)
 
     return md5_hash.hexdigest()
 
@@ -39,7 +37,7 @@ def generate_hash(file_path,
 def find_duplicate_files_by_hash(files,
                                  hash_chunk_size,
                                  file_size,
-                                 previous_chunk_size=0):
+                                 file_pointer_at=0):
     '''
     Given files of the same size, recursively check
     the incremental hash of the files to find duplicates
@@ -47,8 +45,9 @@ def find_duplicate_files_by_hash(files,
     Args:
         files(list): List of files to generate hashes for
         hash_chunk_size(int): Size of hash chunk
-        previous_chunk_size(int): Cumulative file pointer in bytes
         file_size(int): The file size for this list of files
+        file_pointer_at(int): Cumulative file pointer in bytes
+
 
     Returns:
         List: List of duplicate files given the original list of files
@@ -59,7 +58,7 @@ def find_duplicate_files_by_hash(files,
         try:
             file_hash = generate_hash(file_path,
                                       hash_chunk_size,
-                                      previous_chunk_size)
+                                      file_pointer_at)
         except IOError as e:
             logging.error("Could not read: %s. Exiting." %
                           (file_path))
@@ -67,29 +66,36 @@ def find_duplicate_files_by_hash(files,
 
         file_hashes[file_hash].append(file_path)
 
-    previous_chunk_size = hash_chunk_size
+    file_pointer_at = hash_chunk_size
     hash_chunk_size = file_size - hash_chunk_size
     full_file_hashes = defaultdict(list)
+    duplicates = []
 
-    for file_hash in file_hashes:
-        if len(file_hashes[file_hash]) > 1:
+    # Indicates chunk size of 1 and thus we don't need to compute full hash
+    if file_pointer_at == file_size:
+        full_file_hashes = file_hashes
+    else:
+        for file_hash in file_hashes:
+            if len(file_hashes[file_hash]) > 1:
 
-            for file_path in file_hashes[file_hash]:
-                # most likely have a match
-                try:
-                    full_file_hash = generate_hash(file_path,
-                                                   hash_chunk_size,
-                                                   previous_chunk_size)
-                except IOError as e:
-                    logging.error("Could not read: %s. Exiting." %
-                                  (file_path))
-                    raise e
+                for file_path in file_hashes[file_hash]:
+                    # most likely have a match
+                    try:
+                        full_file_hash = generate_hash(file_path,
+                                                       hash_chunk_size,
+                                                       file_pointer_at)
+                    except IOError as e:
+                        logging.error("Could not read: %s. Exiting." %
+                                      (file_path))
+                        raise e
 
-                full_file_hashes[full_file_hash].append(file_path)
+                    full_file_hashes[full_file_hash].append(file_path)
 
-            for full_file_hash in full_file_hashes:
-                if len(full_file_hashes[full_file_hash]) > 1:
-                    return full_file_hashes[full_file_hash]
+    for full_file_hash in full_file_hashes:
+        if len(full_file_hashes[full_file_hash]) > 1:
+            duplicates.append(full_file_hashes[full_file_hash])
+
+    return duplicates
 
 
 def find_duplicate_files(directory_to_search, chunks=1):
@@ -140,7 +146,9 @@ def find_duplicate_files(directory_to_search, chunks=1):
                                                       hash_chunk_size,
                                                       file_size)
             if duplicates:
-                duplicate_files.append(duplicates)
+                for d in duplicates:
+                    duplicate_files.append(d)
+
         # No need to check empty files
         elif file_size == 0:
             duplicate_files.append(file_sizes[file_size])
@@ -178,7 +186,6 @@ def parse_cmd_args(args):
 
 if __name__ == '__main__':
     from pprint import pprint
-    from timeit import default_timer as timer
 
     args = parse_cmd_args(sys.argv[1:])
 
