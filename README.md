@@ -14,11 +14,9 @@ expensive hashes on large files.
 
 ### Installing
 
-Copy this directory to a preferred location and run either as a command line or a Python module.
-As a command line:
 ```
-> cd <FindDuplicateFiles directory>
-> python find_duplicate_files.py --dir /path/to/dir --chunk 2
+> pip install find-duplicate-files
+> find_duplicate_files --dir /path/to/dir --chunk 2
 ```
 To run as a Python module:
 ```
