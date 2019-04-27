@@ -1,6 +1,7 @@
 # FindDuplicateFiles
 
-Finds all duplicate files within a given directory on a file system.
+A fast and efficient way to find duplicate files in a directory. Installable as a command line interface 
+(please see Installing below).
 
 This module will walk the given directory tree and then group files by size 
 (indicating potential duplicate content) followed by comparing the hash of the file.
@@ -15,7 +16,7 @@ expensive hashes on large files.
 ### Installing
 
 ```
-> pip install find-duplicate-files
+> pip3 install find-duplicate-files
 > find_duplicate_files --dir /path/to/dir --chunk 2
 ```
 To run as a Python module:
