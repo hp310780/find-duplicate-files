@@ -1,5 +1,7 @@
 # FindDuplicateFiles
 
+![FindDuplicateFiles](https://github.com/hp310780/FindDuplicateFiles/workflows/Python%20application/badge.svg)
+
 A fast and efficient way to find duplicate files in a directory. Installable as a command line interface 
 (please see Installing below).
 
