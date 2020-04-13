@@ -1,31 +1,31 @@
-import unittest
 import os
+
+import pytest
 
 import find_duplicate_files
 
 
-class TestCommandLine(unittest.TestCase):
-    '''
-    Returns successful if the command line arguments parsing
-    parses the input directory correctly
-    '''
-
-    def setUp(self):
-        self.ground_truth_directory = os.path.join(os.getcwd(),
-                                                   "tests",
-                                                   "test_directory")
-
-        self.ground_truth_chunk = 2
-
-    def runTest(self):
-        parser = find_duplicate_files.parse_cmd_args(["--dir",
-                                                      self.ground_truth_directory,
-                                                      "--chunk",
-                                                      str(
-                                                          self.ground_truth_chunk)])
-        self.assertEqual(parser.dir, self.ground_truth_directory)
-        self.assertEqual(parser.chunk, self.ground_truth_chunk)
+@pytest.fixture(scope="module")
+def cl_test_directory():
+    return os.path.join(os.getcwd(),
+                        "tests",
+                        "test_directory")
 
 
-if __name__ == '__main__':
-    unittest.main()
+@pytest.fixture(scope="module")
+def cl_chunk():
+    return '2'
+
+
+def test_cmd_line(cl_test_directory,
+                  cl_chunk):
+    """Tests whether the command line parsing parses the input directory correctly.
+    """
+    print(find_duplicate_files.__dict__)
+    parser = find_duplicate_files.parse_cmd_args(["--dir",
+                                                  cl_test_directory,
+                                                  "--chunk",
+                                                  cl_chunk
+                                                  ])
+    assert parser.dir == cl_test_directory
+    assert parser.chunk == int(cl_chunk)

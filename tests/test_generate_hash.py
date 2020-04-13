@@ -1,27 +1,25 @@
-import unittest
 import os
+
+import pytest
 
 import find_duplicate_files
 
 
-class TestGenerateHash(unittest.TestCase):
-    '''
-    Returns successful if find_duplicate_files.generate_hash returns the correct
-    hash for a given file.
-    '''
-
-    def setUp(self):
-        self.test_file = os.path.join(os.getcwd(),
-                                      "tests",
-                                      "test_data",
-                                      "TestGenerateHash",
-                                      "1.txt")
-        self.ground_truth_hash = "ee38caabb05595d849d9a3286ae26658"
-
-    def runTest(self):
-        file_hash = find_duplicate_files.generate_hash(self.test_file)
-        self.assertEqual(self.ground_truth_hash, file_hash)
+@pytest.fixture(scope="module")
+def test_file():
+    return os.path.join(os.getcwd(),
+                        "tests",
+                        "test_data",
+                        "TestGenerateHash",
+                        "1.txt")
 
 
-if __name__ == '__main__':
-    unittest.main()
+@pytest.fixture(scope="module")
+def file_hash():
+    return "ee38caabb05595d849d9a3286ae26658"
+
+
+def test_generate_hash(test_file,
+                       file_hash):
+    generated_hash = find_duplicate_files.generate_hash(test_file)
+    assert generated_hash == file_hash

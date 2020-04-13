@@ -32,7 +32,7 @@ To run the tests, please use the following commands:
 
 ```
 > cd <FindDuplicateFiles directory>
-> python -m tests.run
+> pytest
 ```
 
 ## Test Data
