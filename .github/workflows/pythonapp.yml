@@ -38,6 +38,7 @@ jobs:
         source venv/bin/activate
         pip3 install --upgrade pip
         pip3 install pytest
+        pip3 install mock
         pip3 install -e .
         pytest
         deactivate
