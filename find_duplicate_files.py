@@ -184,13 +184,3 @@ def parse_cmd_args(args):
 
     parsed_args = parser.parse_args(args)
     return parsed_args
-
-
-if __name__ == '__main__':
-    from pprint import pprint
-
-    args = parse_cmd_args(sys.argv[1:])
-
-    duplicates = find_duplicate_files(args.dir, args.chunk)
-    print("Duplicate files found in %s -" % args.dir)
-    pprint(duplicates)

@@ -9,35 +9,7 @@ import math
 
 from collections import defaultdict
 
-from find_duplicate_files import find_duplicate_files
-
-
-def parse_cmd_args(args):
-    '''
-    Parse command line arguments into stored types
-
-    Args:
-        args(list[(str)]): List of arguments from command line
-
-    Returns:
-        Object with parsed arguments with correct type
-    '''
-    parser = argparse.ArgumentParser(
-        description='Find duplicates files in the given directory')
-
-    # The only compulsory argument is the directory to search
-    parser.add_argument('--dir',
-                        type=str,
-                        required=True,
-                        help='Path of the parent directory to search')
-    parser.add_argument('--chunk',
-                        type=int,
-                        default=1,
-                        help='Optional: Size of initial hash to check.'
-                             '1 indicates the full file hash. 2 is half etc.')
-
-    parsed_args = parser.parse_args(args)
-    return parsed_args
+from find_duplicate_files import find_duplicate_files, parse_cmd_args
 
 
 if __name__ == '__main__':

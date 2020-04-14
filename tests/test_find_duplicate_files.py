@@ -2,6 +2,7 @@ import os
 import shutil
 
 import pytest
+import mock
 
 import find_duplicate_files
 import generate_test_directory as generator
@@ -29,3 +30,32 @@ def test_find_duplicate_files(parent_directory,
         find_duplicate_files.find_duplicate_files(parent_directory)
 
     assert duplicate_files == duplicates
+
+
+def test_logs_missing_directory():
+    """Tests that a missing directory is correctly captured."""
+    missing_dir = "missing/directory"
+
+    with pytest.raises(ValueError):
+        find_duplicate_files.find_duplicate_files(missing_dir)
+
+
+@mock.patch("os.path.getsize", side_effect=OSError)
+@mock.patch("logging.warning")
+def test_logs_file_size_warning(mock_logging,
+                                mock_getsize):
+    """Tests an os.stat error is logged and captured correctly."""
+    directory = os.path.join(os.getcwd(),
+                             "tests",
+                             "test_data",
+                             "TestMissingFile")
+
+    f = os.path.join(os.getcwd(),
+                     "tests",
+                     "test_data",
+                     "TestMissingFile",
+                     "1.txt")
+
+    find_duplicate_files.find_duplicate_files(directory)
+
+    mock_logging.assert_called_once_with(f"Could not stat: {f}. Skipping. ")
