@@ -1,8 +1,6 @@
 import os
-import shutil
 
 import pytest
-import mock
 
 import find_duplicate_files
 
