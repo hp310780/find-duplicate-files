@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
      name='find-duplicate-files',
-     version='1.0.0',
+     version='2.0.0',
      scripts=['find_duplicate_files'],
      author="hp310780",
      description="Module to find duplicate files in a directory",
