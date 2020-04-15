@@ -100,11 +100,23 @@ def find_duplicate_files_by_hash(files,
     return duplicates
 
 
+def directory_key(directory):
+    """
+    Gets key information for a directory.
+    
+    Arguments:
+        directory (str): Directory to get key for
+    """
+    dirstat = os.stat(directory)
+    return dirstat.st_dev, dirstat.st_ino
+
+
 def find_duplicate_files(directory_to_search, chunks=1):
     '''
     Finds duplicate files in the given directory.
 
-    First, find files of the same size (indicating similar contents).
+    First, resolve symlinks and check for self references,
+    then find files of the same size (indicating similar contents).
     Then compare hashes of first file chunk then full hash if the first
     chunk matches.
 
@@ -120,27 +132,36 @@ def find_duplicate_files(directory_to_search, chunks=1):
             directory_to_search))
 
     file_sizes = defaultdict(list)
+    seen = set()
 
-    # followlinks in order to return full path to symlinked files
     for root, dirs, files in os.walk(directory_to_search, followlinks=True):
-        for file in files:
-            file_path = os.path.join(root, file)
+        # To avoid cyclic symlinks crashing the program, seen will keep track of seen directories
+        seen.add(directory_key(root))
+        directories_to_search = []
+        for d in dirs:
+            dirpath = os.path.realpath(os.path.join(root, d))
+            dirkey = directory_key(dirpath)
+            if dirkey not in seen:
+                seen.add(dirkey)
+                directories_to_search.append(d)
+        # Amend in place
+        dirs[:] = directories_to_search
+
+        for f in files:
+            file_path = os.path.join(root, f)
             file_size = None
-            # Duplicates will have the same file size
             try:
                 file_size = os.path.getsize(file_path)
             except OSError as e:
-                # Account for permission errors etc.
                 logging.warning("Could not stat: %s. Skipping. %s"
                                 % (file_path, e))
                 continue
-
             file_sizes[file_size].append(file_path)
 
     duplicate_files = []
     # Inspect contents of all same size files to determine if duplicates
     for file_size in file_sizes:
-        # Eliminate any unique files
+        # Only check files where more than 1 exists of the same size
         if len(file_sizes[file_size]) > 1 and file_size > 0:
             # Find the hash chunk size. 1 is full file, 4 is a quarter etc.
             hash_chunk_size = int(math.ceil(file_size / chunks))
