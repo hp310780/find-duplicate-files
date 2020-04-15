@@ -11,7 +11,7 @@ setuptools.setup(
      description="Module to find duplicate files in a directory",
      long_description=long_description,
      long_description_content_type='text/markdown',
-     url="https://github.com/hp310780/FindDuplicateFiles",
+     url="https://github.com/hp310780/find-duplicate-files",
      py_modules=['find_duplicate_files'],
      license='MIT License',
      classifiers=[
