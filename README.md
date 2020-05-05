@@ -1,6 +1,6 @@
 # find-duplicate-files
 
-![FindDuplicateFiles](https://github.com/hp310780/FindDuplicateFiles/workflows/Python%20application/badge.svg)
+![Python application](https://github.com/hp310780/find-duplicate-files/workflows/Python%20application/badge.svg)
 
 A fast and efficient way to find duplicate files in a directory. Installable as a command line interface 
 (please see Installing below).
@@ -13,7 +13,7 @@ expensive hashes on large files.
 
 ### Prerequisites
 
-* Python 3.6.5
+* Python 3.6.5+
 
 ### Installing
 
@@ -33,7 +33,7 @@ find_duplicate_files.find_duplicate_files("/path/to/dir", chunk=1)
 To run the tests, please use the following commands:
 
 ```
-> cd <FindDuplicateFiles directory>
+> cd <find-duplicate-files directory>
 > pytest
 ```
 
@@ -48,7 +48,7 @@ The test data provided takes the following form -
 An optional performance script to compare the performance of hashing the full file versus the chunked approach when finding duplicate files. Outputs performance metrics.
 To run:
 ```
-> cd <FindDuplicateFiles/metrics directory>
+> cd <find-duplicate-files/metrics directory>
 > python performance.py
 ```
 Example output:
