@@ -26,12 +26,21 @@ def generate_hash(file_path,
     '''
     md5_hash = hashlib.md5()
 
-    with open(file_path, 'rb') as file_to_hash:
-        if seek_file_at != 0:
-            file_to_hash.seek(seek_file_at)
+    try:
+        with open(file_path, 'rb') as file_to_hash:
+            if seek_file_at != 0:
+                file_to_hash.seek(seek_file_at)
 
-        buffer = file_to_hash.read(chunk_size)
-        md5_hash.update(buffer)
+            buffer = file_to_hash.read(chunk_size)
+            md5_hash.update(buffer)
+    except PermissionError as pe:
+        '''
+        Cannot read file, we're not going to match this (ever)
+            so just hash up the filepath so that nothing
+            unexpected matches (i.e. >1 file into here per set)
+        '''
+        logging.warning('No permission to read %s' % file_path)
+        md5_hash.update(bytes(file_path, encoding='utf-8'))
 
     return md5_hash.hexdigest()
 
