@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "find-duplicate-files"
+version = "2.1.0"
+description = ""
+authors = ["hp310780 <43389959+hp310780@users.noreply.github.com>"]
+
+[tool.poetry.scripts]
+find_duplicate_files = "find_duplicate_files:cli"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+mock = "^4.0.3"
+pre-commit = "^2.20.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "7.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

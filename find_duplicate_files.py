@@ -1,19 +1,33 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3.8
 
 import os
-import sys
 import hashlib
 import logging
 import argparse
 import math
+import sys
 
 from collections import defaultdict
+from typing import List
 
 
-def generate_hash(file_path,
-                  chunk_size=1024,
-                  seek_file_at=0):
-    '''
+def cli() -> None:
+    """
+    Exists for running the cli through poetry.
+    """
+    from pprint import pprint
+
+    args = parse_cmd_args(sys.argv[1:])
+
+    duplicates = find_duplicate_files(args.dir, args.chunk)
+    print("Duplicate files found in %s -" % args.dir)
+    pprint(duplicates)
+
+
+def generate_hash(file_path: str,
+                  chunk_size: int = 1024,
+                  seek_file_at: int = 0) -> str:
+    """
     Generates md5 hash for file chunk
 
     Args:
@@ -23,7 +37,7 @@ def generate_hash(file_path,
 
     Returns:
         Str: Hexdigit digest of file hash
-    '''
+    """
     md5_hash = hashlib.md5()
 
     with open(file_path, 'rb') as file_to_hash:
@@ -36,11 +50,11 @@ def generate_hash(file_path,
     return md5_hash.hexdigest()
 
 
-def find_duplicate_files_by_hash(files,
-                                 hash_chunk_size,
-                                 file_size,
-                                 file_pointer_at=0):
-    '''
+def find_duplicate_files_by_hash(files: List,
+                                 hash_chunk_size: int,
+                                 file_size: int,
+                                 file_pointer_at: int = 0) -> List:
+    """
     Given files of the same size, recursively check
     the incremental hash of the files to find duplicates
 
@@ -53,7 +67,7 @@ def find_duplicate_files_by_hash(files,
 
     Returns:
         List: List of duplicate files given the original list of files
-    '''
+    """
     file_hashes = defaultdict(list)
 
     for file_path in files:
@@ -88,7 +102,7 @@ def find_duplicate_files_by_hash(files,
                                                        file_pointer_at)
                     except IOError as e:
                         logging.error("Could not read: %s. Exiting." %
-                                      (file_path))
+                                      file_path)
                         raise e
 
                     full_file_hashes[full_file_hash].append(file_path)
@@ -100,10 +114,10 @@ def find_duplicate_files_by_hash(files,
     return duplicates
 
 
-def directory_key(directory):
+def directory_key(directory) -> [int, int]:
     """
     Gets key information for a directory.
-    
+
     Arguments:
         directory (str): Directory to get key for
     """
@@ -111,8 +125,8 @@ def directory_key(directory):
     return dirstat.st_dev, dirstat.st_ino
 
 
-def find_duplicate_files(directory_to_search, chunks=1):
-    '''
+def find_duplicate_files(directory_to_search: str, chunks: int = 1) -> List[List]:
+    """
     Finds duplicate files in the given directory.
 
     First, resolve symlinks and check for self references,
@@ -126,7 +140,7 @@ def find_duplicate_files(directory_to_search, chunks=1):
 
     Returns:
         List of Lists: List of lists of duplicate files in the directory tree
-    '''
+    """
     if not os.path.exists(directory_to_search):
         raise ValueError("Given directory %s does not seem to exist." % (
             directory_to_search))
@@ -180,7 +194,7 @@ def find_duplicate_files(directory_to_search, chunks=1):
 
 
 def parse_cmd_args(args):
-    '''
+    """
     Parse command line arguments into stored types
 
     Args:
@@ -188,7 +202,7 @@ def parse_cmd_args(args):
 
     Returns:
         Object with parsed arguments with correct type
-    '''
+    """
     parser = argparse.ArgumentParser(
         description='Find duplicates files in the given directory')
 

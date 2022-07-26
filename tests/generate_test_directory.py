@@ -2,12 +2,13 @@ import os
 import random
 
 from collections import defaultdict
+from typing import List
 
 
-def generate_test_directory(parent_directory,
-                            max_levels,
-                            return_duplicates=False):
-    '''
+def generate_test_directory(parent_directory: str,
+                            max_levels: int,
+                            return_duplicates: bool = False) -> List[list]:
+    """
     Generates random set of folders/files in the given parent_directory directory
 
     Args:
@@ -16,9 +17,10 @@ def generate_test_directory(parent_directory,
         return_duplicates(bool): Should this return the duplicates in the directory
 
     Returns:
-        Bool: If return_duplicates is True will
-              return list of lists of duplicate files in the generated directory
-    '''
+        List: If return_duplicates is True will
+              return list of lists of duplicate files in the generated directory,
+              else an empty list.
+    """
     if not os.path.exists(parent_directory):
         os.makedirs(parent_directory)
 
@@ -57,3 +59,4 @@ def generate_test_directory(parent_directory,
             if len(duplicate_files[duplicate_file]) > 1:
                 duplicates.append(duplicate_files[duplicate_file])
         return sorted(duplicates)
+    return []

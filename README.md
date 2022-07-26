@@ -2,25 +2,36 @@
 
 ![Python application](https://github.com/hp310780/find-duplicate-files/workflows/Python%20application/badge.svg)
 
-A fast and efficient way to find duplicate files in a directory. Installable as a command line interface 
+A fast and efficient way to find duplicate files in a directory. Installable as a command line interface
 (please see Installing below).
 
-This module will walk the given directory tree and then group files by size 
+This module will walk the given directory tree and then group files by size
 (indicating potential duplicate content) followed by comparing the hash of the file.
-This hash can be chunked by passing in a chunk arg. This will compute an initial hash for a chunk of the file 
+This hash can be chunked by passing in a chunk arg. This will compute an initial hash for a chunk of the file
 before then computing the full hash if the first hash matched, thus avoiding computing
 expensive hashes on large files.
 
 ### Prerequisites
 
 * Python 3.6.5+
+* pip
+
+* [optional] poetry, if you wish to contribute to this repository.
 
 ### Installing
 
+Using poetry:
+```
+> poetry install
+> poetry run find_duplicate_files --dir /path/to/dir --chunk 2
+```
+
+Using pip:
 ```
 > pip3 install find-duplicate-files
 > find_duplicate_files --dir /path/to/dir --chunk 2
 ```
+
 To run as a Python module:
 ```
 import find_duplicate_files
@@ -32,21 +43,32 @@ find_duplicate_files.find_duplicate_files("/path/to/dir", chunk=1)
 
 To run the tests, please use the following commands:
 
+Using poetry:
+```
+> poetry run pytest
+```
+
+Using pip:
 ```
 > cd <find-duplicate-files directory>
-> pytest
+> python3 -m pytest
 ```
 
 ## Test Data
 
-The test data provided takes the following form - 
+The test data provided takes the following form -
 * tests/test_data/TestFindDuplicateFilesByHash: 5 .txt files of equal size (29 bytes). 1.txt and 3.txt are the same content. 4.txt and 5.txt are the same content. 2.txt is different contents (but the same size). Used to verify the find_duplicate_files.find_duplicate_files_by_hash function.
 * tests/test_data/TestGenerateHash/1.txt: 1 .txt file with which to compare the outcome of find_duplicate_files.generate_hash to.
 
 ## Performance
 
 An optional performance script to compare the performance of hashing the full file versus the chunked approach when finding duplicate files. Outputs performance metrics.
-To run:
+
+Using poetry:
+```
+> poetry run python3 performance.py
+```
+Or:
 ```
 > cd <find-duplicate-files/metrics directory>
 > python performance.py

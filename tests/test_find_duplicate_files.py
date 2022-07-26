@@ -22,10 +22,8 @@ def duplicates(parent_directory):
     return generator.generate_test_directory(parent_directory, 100, True)
 
 
-def test_find_duplicate_files(parent_directory,
-                              duplicates):
-    """Tests that find_duplicate_files.find_duplicate_files returns
-       the duplicate files in the given directory."""
+def test_finds_duplicate_files(parent_directory,
+                               duplicates):
     duplicate_files = \
         find_duplicate_files.find_duplicate_files(parent_directory)
 
@@ -33,7 +31,6 @@ def test_find_duplicate_files(parent_directory,
 
 
 def test_logs_missing_directory():
-    """Tests that a missing directory is correctly captured."""
     missing_dir = "missing/directory"
 
     with pytest.raises(ValueError):
