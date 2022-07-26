@@ -23,7 +23,7 @@ def duplicates(parent_directory):
 
 
 def test_finds_duplicate_files(parent_directory,
-                              duplicates):
+                               duplicates):
     duplicate_files = \
         find_duplicate_files.find_duplicate_files(parent_directory)
 

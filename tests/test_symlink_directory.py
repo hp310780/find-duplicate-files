@@ -16,16 +16,16 @@ def directory():
 @pytest.fixture(scope="module")
 def duplicates():
     file_1 = os.path.join(os.getcwd(),
-                        "tests",
-                        "test_data",
-                        "TestSymlink",
-                        "1.txt")
+                          "tests",
+                          "test_data",
+                          "TestSymlink",
+                          "1.txt")
     file_2 = os.path.join(os.getcwd(),
-                        "tests",
-                        "test_data",
-                        "TestSymlink",
-                        "3",
-                        "4.txt")
+                          "tests",
+                          "test_data",
+                          "TestSymlink",
+                          "3",
+                          "4.txt")
     return [[file_1, file_2]]
 
 

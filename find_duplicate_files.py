@@ -117,7 +117,7 @@ def find_duplicate_files_by_hash(files: List,
 def directory_key(directory) -> [int, int]:
     """
     Gets key information for a directory.
-    
+
     Arguments:
         directory (str): Directory to get key for
     """
