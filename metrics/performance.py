@@ -8,9 +8,9 @@ from tests import generate_test_directory
 
 
 def run():
-    '''
+    """
     Output time taken for a full hash vs chunked hash
-    '''
+    """
     # Generate random test directory tree with max_levels 1000
     directory = os.path.join(os.getcwd(), "test_folder")
     duplicates = generate_test_directory.generate_test_directory(directory,
