@@ -14,13 +14,22 @@ expensive hashes on large files.
 ### Prerequisites
 
 * Python 3.6.5+
+* Poetry
 
 ### Installing
 
+Using poetry:
 ```
+> poetry install
+> poetry run find_duplicate_files --dir /path/to/dir --chunk 2
+```
+
+Using pip:
+```shell script
 > pip3 install find-duplicate-files
 > find_duplicate_files --dir /path/to/dir --chunk 2
 ```
+
 To run as a Python module:
 ```
 import find_duplicate_files
@@ -32,9 +41,15 @@ find_duplicate_files.find_duplicate_files("/path/to/dir", chunk=1)
 
 To run the tests, please use the following commands:
 
+Using poetry:
+```
+> poetry run pytest
+```
+
+Using pip:
 ```
 > cd <find-duplicate-files directory>
-> pytest
+> python3 -m pytest
 ```
 
 ## Test Data

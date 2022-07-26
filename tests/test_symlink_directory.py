@@ -31,7 +31,7 @@ def duplicates():
 
 def test_find_duplicate_files_symlink_directory(directory,
                                                 duplicates):
-    """Tests that find_duplicate_files.find_duplicate_files accounts for
+    """Tests that find-duplicate-files.find-duplicate-files accounts for
     symlinks to the current directory (avoiding infinite recursion)."""
     duplicate_files = \
         find_duplicate_files.find_duplicate_files(directory)

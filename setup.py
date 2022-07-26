@@ -12,7 +12,7 @@ setuptools.setup(
      long_description=long_description,
      long_description_content_type='text/markdown',
      url="https://github.com/hp310780/find-duplicate-files",
-     py_modules=['find_duplicate_files'],
+     py_modules=['find-duplicate-files'],
      license='MIT License',
      classifiers=[
          "Programming Language :: Python :: 3"

@@ -56,7 +56,7 @@ def test_find_duplicate_files_by_hash(test_file_1,
                                       test_file_3,
                                       test_file_4,
                                       test_file_5):
-    """Test that find_duplicate_files.find_duplicate_files_by_hash
+    """Test that find-duplicate-files.find_duplicate_files_by_hash
     returns correct list of duplicate files.
     """
     duplicate_files_by_hash = \
@@ -91,28 +91,29 @@ def mock_generate_hash(*args, **kwargs):
 
     if file_pointer_at == 0:
         return "hash0"
-    
+
     if hash_chunk_size == 28:
         raise IOError
+
 
 @mock.patch("find_duplicate_files.generate_hash", side_effect=mock_generate_hash)
 def test_full_file_hash_error(mock_hash):
     """Tests that a full file hash error is captured and raised."""
     file_1 = os.path.join(os.getcwd(),
-                        "tests",
-                        "test_data",
-                        "TestGenerateHashErrors",
-                        "1.txt")
+                          "tests",
+                          "test_data",
+                          "TestGenerateHashErrors",
+                          "1.txt")
     file_2 = os.path.join(os.getcwd(),
-                        "tests",
-                        "test_data",
-                        "TestGenerateHashErrors",
-                        "2.txt")
+                          "tests",
+                          "test_data",
+                          "TestGenerateHashErrors",
+                          "2.txt")
     files = [file_1, file_2]
     hash_chunk_size = 1
     file_size = 29
 
     with pytest.raises(IOError):
         find_duplicate_files.find_duplicate_files_by_hash(files,
-                                                        hash_chunk_size,
-                                                        file_size)
+                                                          hash_chunk_size,
+                                                          file_size)

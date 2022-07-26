@@ -24,7 +24,7 @@ def duplicates(parent_directory):
 
 def test_find_duplicate_files(parent_directory,
                               duplicates):
-    """Tests that find_duplicate_files.find_duplicate_files returns
+    """Tests that find-duplicate-files.find-duplicate-files returns
        the duplicate files in the given directory."""
     duplicate_files = \
         find_duplicate_files.find_duplicate_files(parent_directory)
