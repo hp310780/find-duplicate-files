@@ -14,7 +14,7 @@ expensive hashes on large files.
 ### Prerequisites
 
 * Python 3.6.5+
-* Poetry
+* Poetry or pip
 
 ### Installing
 
@@ -25,7 +25,7 @@ Using poetry:
 ```
 
 Using pip:
-```shell script
+```
 > pip3 install find-duplicate-files
 > find_duplicate_files --dir /path/to/dir --chunk 2
 ```
@@ -61,7 +61,12 @@ The test data provided takes the following form -
 ## Performance
 
 An optional performance script to compare the performance of hashing the full file versus the chunked approach when finding duplicate files. Outputs performance metrics.
-To run:
+
+Using poetry:
+```
+> poetry run python3 performance.py
+```
+Or:
 ```
 > cd <find-duplicate-files/metrics directory>
 > python performance.py

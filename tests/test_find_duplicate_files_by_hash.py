@@ -56,15 +56,12 @@ def test_find_duplicate_files_by_hash(test_file_1,
                                       test_file_3,
                                       test_file_4,
                                       test_file_5):
-    """Test that find-duplicate-files.find_duplicate_files_by_hash
-    returns correct list of duplicate files.
-    """
     duplicate_files_by_hash = \
-        find_duplicate_files.find_duplicate_files_by_hash((test_file_1,
+        find_duplicate_files.find_duplicate_files_by_hash([test_file_1,
                                                            test_file_2,
                                                            test_file_3,
                                                            test_file_4,
-                                                           test_file_5),
+                                                           test_file_5],
                                                           int(29 / 4),
                                                           29)
     # pre-determined duplicates
@@ -74,8 +71,7 @@ def test_find_duplicate_files_by_hash(test_file_1,
     assert duplicate_files_by_hash == duplicates
 
 
-def test_generate_hash_error():
-    """Tests an IOError is captured and raised."""
+def test_generate_hash_io_error_raised():
     files = ["1.txt"]
     hash_chunk_size = 1
     file_size = 1
@@ -97,8 +93,7 @@ def mock_generate_hash(*args, **kwargs):
 
 
 @mock.patch("find_duplicate_files.generate_hash", side_effect=mock_generate_hash)
-def test_full_file_hash_error(mock_hash):
-    """Tests that a full file hash error is captured and raised."""
+def test_full_file_hash_error_is_raised(mock_hash):
     file_1 = os.path.join(os.getcwd(),
                           "tests",
                           "test_data",

@@ -17,10 +17,8 @@ def cl_chunk():
     return '2'
 
 
-def test_cmd_line(cl_test_directory,
-                  cl_chunk):
-    """Tests whether the command line parsing parses the input directory correctly.
-    """
+def test_cmd_line_parses_args(cl_test_directory,
+                              cl_chunk):
     print(find_duplicate_files.__dict__)
     parser = find_duplicate_files.parse_cmd_args(["--dir",
                                                   cl_test_directory,

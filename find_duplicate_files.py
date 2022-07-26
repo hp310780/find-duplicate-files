@@ -8,6 +8,7 @@ import math
 import sys
 
 from collections import defaultdict
+from typing import List
 
 
 def cli() -> None:
@@ -49,10 +50,10 @@ def generate_hash(file_path: str,
     return md5_hash.hexdigest()
 
 
-def find_duplicate_files_by_hash(files,
-                                 hash_chunk_size,
-                                 file_size,
-                                 file_pointer_at=0):
+def find_duplicate_files_by_hash(files: List,
+                                 hash_chunk_size: int,
+                                 file_size: int,
+                                 file_pointer_at: int = 0) -> List:
     """
     Given files of the same size, recursively check
     the incremental hash of the files to find duplicates
@@ -101,7 +102,7 @@ def find_duplicate_files_by_hash(files,
                                                        file_pointer_at)
                     except IOError as e:
                         logging.error("Could not read: %s. Exiting." %
-                                      (file_path))
+                                      file_path)
                         raise e
 
                     full_file_hashes[full_file_hash].append(file_path)
@@ -113,7 +114,7 @@ def find_duplicate_files_by_hash(files,
     return duplicates
 
 
-def directory_key(directory):
+def directory_key(directory) -> [int, int]:
     """
     Gets key information for a directory.
     
@@ -124,7 +125,7 @@ def directory_key(directory):
     return dirstat.st_dev, dirstat.st_ino
 
 
-def find_duplicate_files(directory_to_search, chunks=1):
+def find_duplicate_files(directory_to_search: str, chunks: int = 1) -> List[List]:
     """
     Finds duplicate files in the given directory.
 
